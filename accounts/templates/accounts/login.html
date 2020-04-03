@@ -1,0 +1,50 @@
+{% comment %} <form>
+{% csrf_token %}
+<div style="width:50%;position:relative;right:-650px">
+  <div class="form-group">
+    <label for="username">User Name</label><br>
+    <input type="text" name="username" class="form-control" id="username" placeholder="Enter username"><br>
+    {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small><br> {% endcomment %}
+  {% comment %} </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label><br>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password"><br>
+  </div>
+    
+  <input type="submit" class="btn btn-primary" value="login"><br>
+        {% for message in messages %}
+         <p>{{ message }}</p>
+        {% endfor %}
+<a href="{% url 'register' %}" style="position:relative;right:-120px;top:-15px">register</a>
+</div>
+</form> {% endcomment %} 
+<body>
+  
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+<h1>LOGIN FORM</h1>
+{% if messages %}
+    {% for message in messages %}
+    {{message}}
+    {% endfor %}
+{% endif %}
+    <!-- Login Form -->
+    <form action="{% url 'login' %}" method="POST">
+	{% csrf_token %}<p>
+	<p><label for="email">Email :</label></p>
+      <input type="email" id="email" class="fadeIn second" name="email" placeholder="Email" required></p>
+	<p><p><label for="password">password :</label></p>
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="password" required>
+      </p><p><input type="submit" class="fadeIn fourth" value="Log In"></p>
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="{% url 'signup' %}">signup</a>
+    </div>
+
+    </div>
+  </div>
+
+  </body>

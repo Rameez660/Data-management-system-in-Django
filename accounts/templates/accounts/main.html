@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <head>
+	<title>CRM</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+ <script src="https://kit.fontawesome.com/a54d2cbf95.js"></script>
+</head>
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  height:75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Raleway", sans-serif;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+}
+
+.section1 {
+  background: #f0932b;
+}
+
+.section2 {
+  background: #eb4d4b;
+}
+
+.section3 {
+  background: #7ed6df;
+}
+
+.section4 {
+  background: #22a6b3;
+}
+
+.to-top {
+  background: white;
+  position: fixed;
+  bottom: 16px;
+  right:32px;
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:32px;
+  color:#1f1f1f;
+  text-decoration: none;
+  opacity:0;
+  pointer-events: none;
+  transition: all .4s;
+}
+
+.to-top.active {
+  bottom:32px;
+  pointer-events: auto;
+  opacity:1;
+}
+</style>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ 
+ <a href="/"><img src="{% static 'image/a.jfif' %}" style="width:30px;height:30px"></a> 
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'products' %}">Products</a>
+      </li>
+   </ul>
+  </div>
+  <ul class='navbar-nav'>
+      <li class="nav-item dropdown">
+        <a style="background-color:" class="dropdown-toggle btn btn-outline-success mx-1" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome, {{user}}
+        </a>
+       <a class="" href="{% url 'handlelogout' %}"><div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <span style="color:green;margin-left:50px">Logout</span> 
+        </div>
+        </a>
+      </li>
+    </ul>
+  {% comment %} <span style='color:white;position:relative;right:20px'>Hello,{{request.user}} </span>
+  <span> <a href="{% url 'logout' %}">Logout</a> </span> {% endcomment %}
+{% comment %} {% if user.is_authenticated %}
+<ul class='navbar-nav'>
+      <li class="nav-item dropdown">
+        <a style="background-color:#a3001e" class="dropdown-toggle btn btn-outline-success mx-1" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome {{request.user}}
+        </a>
+       <a class="" href="logout/">    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <span style="color:green;margin-left:50px">Logout</span> 
+        </div>
+        </a>
+      </li>
+    </ul>
+{% else %}
+<button type="button" class="btn btn-outline-success mx-1" data-toggle="modal" data-target="#signupmodal"  style="background-color:#a3001e">
+  Signup
+</button>
+<button type="button" class="btn btn-outline-success mx-1" data-toggle="modal" data-target="#loginmodal"  style="background-color:#a3001e">
+  Login
+</button>
+{% endif %} {% endcomment %}
+</nav>
+    {% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  <strong>Message : </strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  {% endfor %}
+<hr>
+{% block content %}
+{% endblock content %}
+<hr>
+{% comment %} 
+<div class="modal fade" id="signupmodal" tabindex="-1" role="dialog" aria-labelledby="signupmodal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupmodal">Signup Here</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="signup/" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="username">username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username" Required>
+  </div>
+  <div class="form-group">
+    <label for="fname">First Name</label>
+    <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" Required>
+  </div>
+
+  <div class="form-group">
+    <label for="lname">Last Name</label>
+    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" Required>
+    </div>
+    <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="text" class="form-control" id="email" name="email" placeholder="Your Email" Required>
+  </div>
+  
+    <div class="form-group">
+    <label for="pass1">Password</label>
+    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose Your Password" Required>
+    </div>
+  
+    <div class="form-group">
+    <label for="pass2">Enter Password Again</label>
+    <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Enter Password Again" Required>
+  </div>
+  
+  {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
+        {% comment %} <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginmodal">Login Here</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="login/" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="username">username</label>
+    <input type="text" class="form-control" id="loginusername" name="loginusername" placeholder="Username" Required>
+  </div>
+
+    <div class="form-group">
+    <label for="pass">Password</label>
+    <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter Password" Required>
+  </div>
+  {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
+        {% comment %} <input type="submit" class="btn btn-primary"> {% endcomment %}
+
+{% comment %} </form>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %} 
+
+
+
+
+  <a href="#" class="to-top">
+    <i class="fas fa-chevron-up"></i>
+  </a>
+<script>
+  const toTop = document.querySelector(".to-top");
+
+window.addEventListener("scroll", () => {
+  if (window.pageYOffset > 100) {
+    toTop.classList.add("active");
+  } else {
+    toTop.classList.remove("active");
+  }
+})
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
